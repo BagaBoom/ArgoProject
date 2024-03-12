@@ -16,6 +16,7 @@ class CarCategoryController(@Autowired private val repository: CarCategoryReposi
         return repository.findAll().toList()
     }
 
+
     @PostMapping
     fun addCategory(@RequestBody category: CarCategory): ResponseEntity<CarCategory> {
         val savedCategory = repository.save(category)
