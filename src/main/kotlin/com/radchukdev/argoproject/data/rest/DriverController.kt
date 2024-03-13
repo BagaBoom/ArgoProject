@@ -39,7 +39,9 @@ class DriverController(@Autowired private val driverRepository: DriverRepository
             val updated = existingDriver.copy(
                 firstName = updatedDriver.firstName,
                 lastName = updatedDriver.lastName,
-                drivingLicense = updatedDriver.drivingLicense
+                licenseNumber = updatedDriver.licenseNumber,
+                statusDriver = updatedDriver.statusDriver,
+                vehicle = updatedDriver.vehicle
             )
             ResponseEntity(driverRepository.save(updated), HttpStatus.OK)
         }.orElse(ResponseEntity(HttpStatus.NOT_FOUND))

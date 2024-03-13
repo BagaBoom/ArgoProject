@@ -9,14 +9,13 @@ import java.util.*
 data class Service(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long?,
-    val serviceName: String,
     val serviceDate: Date,
+    val serviceType: String,
     @ManyToOne
-    @JoinColumn(name = "agro_car_id")
-    val agroCar: AgroCar
+    @JoinColumn(name = "vehicle_id")
+    val vehicle: Vehicle?
 ) {
-    constructor() : this(null, "", Date(), AgroCar(
-    )) {
+    constructor() : this(null,  Date(),"", null) {
 
     }
 

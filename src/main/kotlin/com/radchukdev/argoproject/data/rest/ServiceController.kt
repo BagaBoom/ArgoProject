@@ -37,9 +37,9 @@ class ServiceController(@Autowired private val serviceRepository: ServiceReposit
     fun updateService(@PathVariable id: Long, @RequestBody updatedService: Service): ResponseEntity<Service> {
         return serviceRepository.findById(id).map { existingService ->
             val updated = existingService.copy(
-                serviceName = updatedService.serviceName,
                 serviceDate = updatedService.serviceDate,
-                agroCar = updatedService.agroCar
+                serviceType = updatedService.serviceType,
+                vehicle = updatedService.vehicle
             )
             ResponseEntity(serviceRepository.save(updated), HttpStatus.OK)
         }.orElse(ResponseEntity(HttpStatus.NOT_FOUND))

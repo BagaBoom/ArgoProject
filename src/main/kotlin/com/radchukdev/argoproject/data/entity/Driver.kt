@@ -9,10 +9,13 @@ data class Driver(
     val id: Long?,
     val firstName: String,
     val lastName: String,
-    val drivingLicense: String
+    val licenseNumber: String,
+    val statusDriver : String,
+    @OneToOne
+    @JoinColumn(name = "vehicle_id")
+    val vehicle: Vehicle?
 ) {
-
-    constructor() : this(null, "","","") {
+    constructor() : this(null, "","","","",null) {
 
     }
 }
