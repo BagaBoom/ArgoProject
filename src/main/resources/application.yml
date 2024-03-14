@@ -16,7 +16,19 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
 
+
 server:
   port: 8080
+
+agro:
+  api-access-keys:
+    9a2b7a25-7950-4a14-98a0-1ee6fc0c7b16
+    e80b2cb1-491b-4999-8225-7e46fbd3a8f8
+    78b06f58-92b2-45e0-8761-4f9cbfd5a9c5
+
+
+
+
+
 
 
