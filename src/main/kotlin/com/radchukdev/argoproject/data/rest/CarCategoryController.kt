@@ -1,6 +1,7 @@
 package com.radchukdev.argoproject.data.rest
 
 import com.radchukdev.argoproject.data.entity.CarCategory
+import com.radchukdev.argoproject.data.entity.Vehicle
 import com.radchukdev.argoproject.data.repository.CarCategoryRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
@@ -15,6 +16,17 @@ class CarCategoryController(@Autowired private val repository: CarCategoryReposi
     fun getAllCategories(): List<CarCategory> {
         return repository.findAll().toList()
     }
+
+    @GetMapping("/{name}")
+    fun getCarCategoryByName(@PathVariable name: String): ResponseEntity<CarCategory> {
+        val carCategory = repository.findByName(name)
+        return if (carCategory != null) {
+            ResponseEntity(carCategory, HttpStatus.OK)
+        } else {
+            ResponseEntity(HttpStatus.NOT_FOUND)
+        }
+    }
+
 
 
     @PostMapping
