@@ -17,7 +17,7 @@ class CarCategoryController(@Autowired private val repository: CarCategoryReposi
         return repository.findAll().toList()
     }
 
-    @GetMapping("/{name}")
+    @GetMapping("/name/{name}")
     fun getCarCategoryByName(@PathVariable name: String): ResponseEntity<CarCategory> {
         val carCategory = repository.findByName(name)
         return if (carCategory != null) {

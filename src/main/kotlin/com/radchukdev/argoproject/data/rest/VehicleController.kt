@@ -1,6 +1,7 @@
 package com.radchukdev.argoproject.data.rest
 
 
+import com.radchukdev.argoproject.data.entity.CarCategory
 import com.radchukdev.argoproject.data.entity.Vehicle
 import com.radchukdev.argoproject.data.repository.VehicleRepository
 import org.springframework.beans.factory.annotation.Autowired
@@ -15,6 +16,15 @@ class VehicleController(@Autowired private val VehicleRepository: VehicleReposit
     @GetMapping
     fun getAllVehicles(): List<Vehicle> {
         return VehicleRepository.findAll()
+    }
+    @GetMapping("/reg/{number}")
+    fun getVehicleByRegistrationNumber(@PathVariable number: String): ResponseEntity<Vehicle> {
+        val vehicle = VehicleRepository.findByRegistrationNumber(number)
+        return if (vehicle != null) {
+            ResponseEntity(vehicle, HttpStatus.OK)
+        } else {
+            ResponseEntity(HttpStatus.NOT_FOUND)
+        }
     }
 
     @PostMapping
