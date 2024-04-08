@@ -18,5 +18,4 @@ data class Service(
     constructor() : this(null,  Date(),"", null) {
 
     }
-
 }

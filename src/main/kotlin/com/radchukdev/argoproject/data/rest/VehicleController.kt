@@ -17,6 +17,11 @@ class VehicleController(@Autowired private val VehicleRepository: VehicleReposit
     fun getAllVehicles(): List<Vehicle> {
         return VehicleRepository.findAll()
     }
+    @GetMapping("/count")
+    fun getNumberOfVehicle(): Int {
+        return VehicleRepository.findDistinctVehicleCount()
+    }
+
     @GetMapping("/reg/{number}")
     fun getVehicleByRegistrationNumber(@PathVariable number: String): ResponseEntity<Vehicle> {
         val vehicle = VehicleRepository.findByRegistrationNumber(number)

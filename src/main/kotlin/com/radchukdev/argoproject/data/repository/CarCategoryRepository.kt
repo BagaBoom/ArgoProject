@@ -8,4 +8,10 @@ import org.springframework.data.jpa.repository.Query
 interface CarCategoryRepository : JpaRepository<CarCategory, Long>{
     @Query("SELECT c FROM CarCategory c WHERE c.name = :name")
     fun findByName(name: String): CarCategory?
+
+
+    @Query("select count(c) from CarCategory c")
+    fun findDistinctCategoryCount(): Int
+
+
 }

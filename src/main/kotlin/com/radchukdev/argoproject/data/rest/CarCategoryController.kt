@@ -17,6 +17,12 @@ class CarCategoryController(@Autowired private val repository: CarCategoryReposi
         return repository.findAll().toList()
     }
 
+    @GetMapping("/count")
+    fun getNumberOfCategories(): ResponseEntity<Int> {
+        val count = repository.findDistinctCategoryCount()
+        return ResponseEntity.ok(count)
+    }
+
     @GetMapping("/name/{name}")
     fun getCarCategoryByName(@PathVariable name: String): ResponseEntity<CarCategory> {
         val carCategory = repository.findByName(name)

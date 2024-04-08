@@ -17,6 +17,11 @@ class DriverController(@Autowired private val driverRepository: DriverRepository
         return driverRepository.findAll()
     }
 
+    @GetMapping("/count")
+    fun getNumberOfDrives(): Int {
+        return driverRepository.findDistinctDrivesCount()
+    }
+
     @PostMapping
     fun addDriver(@RequestBody driver: Driver): ResponseEntity<Driver> {
         val savedDriver = driverRepository.save(driver)
