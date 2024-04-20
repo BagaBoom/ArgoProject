@@ -18,6 +18,7 @@ repositories {
     mavenCentral()
 }
 
+
 dependencies {
     // Security
     implementation("io.jsonwebtoken:jjwt-api:0.12.3")
@@ -49,3 +50,4 @@ tasks.withType<KotlinCompile> {
 tasks.withType<Test> {
     useJUnitPlatform()
 }
+

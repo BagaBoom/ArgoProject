@@ -1,0 +1,28 @@
+
+services:
+  db_agro:
+    image: postgres
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=1234
+      - POSTGRES_DB=db_agro
+    volumes:
+      - db_agro:/var/lib/postgresql/data
+
+    ports:
+      - "127.0.0.1:5433:5432"
+
+  app:
+    restart: always
+    build:
+      context: .
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db_agro
+    environment:
+      SPRING_DATASOURCE_URL: 'jdbc:postgresql://db_agro:5432/db_agro'
+
+volumes:
+  db_agro:
