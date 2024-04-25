@@ -1,6 +1,7 @@
 package com.radchukdev.argoproject.data.rest.user
 
 
+import com.radchukdev.argoproject.data.entity.UserEntity
 import com.radchukdev.argoproject.model.Role
 import com.radchukdev.argoproject.model.User
 import com.radchukdev.argoproject.service.UserService
@@ -17,30 +18,27 @@ class UserController(
 ) {
 
   @PostMapping
-  fun create(@RequestBody userRequest: UserRequest): UserResponse =
-    userService.createUser(userRequest.toModel())
-      ?.toResponse()
-      ?: throw ResponseStatusException(HttpStatus.BAD_REQUEST, "Cannot create user.")
+  fun create(@RequestBody userRequest: UserRequest): ResponseEntity<UserEntity> {
+    val userEntity = userService.createUser(userRequest.toModel())
+    return ResponseEntity.ok(userEntity)
+  }
 
   @GetMapping
-  fun listAll(): List<UserResponse> =
+  fun listAll(): List<UserEntity> =
     userService.findAll()
-      .map { it.toResponse() }
 
   @GetMapping("/{uuid}")
-  fun findByUUID(@PathVariable uuid: UUID): UserResponse =
-    userService.findByUUID(uuid)
-      ?.toResponse()
+  fun findByUUID(@PathVariable uuid: UUID): ResponseEntity<UserResponse> {
+    val userEntity = userService.findByUUID(uuid)
       ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "User not found.")
-
+    return ResponseEntity.ok(userEntity)
+  }
 
   @DeleteMapping("/{uuid}")
-  fun deleteByUUID(@PathVariable uuid: UUID): ResponseEntity<Boolean> {
+  fun deleteByUUID(@PathVariable uuid: UUID): ResponseEntity<Unit> {
     val success = userService.deleteByUUID(uuid)
-
     return if (success)
-      ResponseEntity.noContent()
-        .build()
+      ResponseEntity.noContent().build()
     else
       throw ResponseStatusException(HttpStatus.NOT_FOUND, "User not found.")
   }
@@ -51,11 +49,10 @@ class UserController(
       email = this.email,
     )
 
-  private fun UserRequest.toModel(): User =
-    User(
-      id = UUID.randomUUID(),
+  private fun UserRequest.toModel(): UserEntity =
+    UserEntity(
       email = this.email,
       password = this.password,
-      role = Role.USER,
+      role = Role.USER
     )
 }

@@ -1,62 +1,25 @@
 package com.radchukdev.argoproject.data.repository
 
+import com.radchukdev.argoproject.data.entity.UserEntity
+import com.radchukdev.argoproject.data.rest.user.UserResponse
+import org.springframework.data.jpa.repository.JpaRepository
+import org.springframework.data.jpa.repository.Modifying
+import org.springframework.data.jpa.repository.Query
+import java.util.UUID
 
-import com.radchukdev.argoproject.model.Role
-import com.radchukdev.argoproject.model.User
-import org.springframework.security.crypto.password.PasswordEncoder
-import org.springframework.stereotype.Repository
-import java.util.*
 
-@Repository
-class UserRepository(
-  private val encoder: PasswordEncoder
-) {
+interface UserRepository : JpaRepository<UserEntity, UUID>{
 
-  private val users = mutableSetOf(
-    User(
-      id = UUID.randomUUID(),
-      email = "login1",
-      password = encoder.encode("pass1"),
-      role = Role.USER,
-    ),
-    User(
-      id = UUID.randomUUID(),
-      email = "login2",
-      password = encoder.encode("pass2"),
-      role = Role.ADMIN,
-    ),
-    User(
-      id = UUID.randomUUID(),
-      email = "login3",
-      password = encoder.encode("pass3"),
-      role = Role.USER,
-    ),
-  )
+    @Query("SELECT u FROM UserEntity u WHERE u.email = :email")
+    fun findByEmail(email: String): UserEntity?
 
-  fun save(user: User): Boolean {
-    val updated = user.copy(password = encoder.encode(user.password))
+    @Query("SELECT u FROM UserEntity u")
+    override fun findAll(): List<UserEntity>
 
-    return users.add(updated)
-  }
+    @Query("SELECT u FROM UserEntity u WHERE u.id = :uuid")
+    fun findByUuid(uuid: UUID): UserResponse?
 
-  fun findByEmail(email: String): User? =
-    users
-      .firstOrNull { it.email == email }
-
-  fun findAll(): Set<User> =
-    users
-
-  fun findByUUID(uuid: UUID): User? =
-    users
-      .firstOrNull { it.id == uuid }
-
-  fun deleteByUUID(uuid: UUID): Boolean {
-    val foundUser = findByUUID(uuid)
-
-    return foundUser?.let {
-      users.removeIf {
-        it.id == uuid
-      }
-    } ?: false
-  }
+    @Modifying
+    @Query("DELETE FROM UserEntity u WHERE u.id = :uuid")
+    fun deleteByUuid(uuid: UUID)
 }

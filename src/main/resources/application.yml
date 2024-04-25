@@ -18,7 +18,7 @@ spring:
 
 
 server:
-  port: 8080
+  port: 8089
 
 jwt:
   key: 2260e690-e62f-11ee-bd3d-0242ac120002
